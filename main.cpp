@@ -169,20 +169,18 @@ Process *findCurrentRunningProcess(int value) {
 
 
 Frame* clockHelper() {
-    Frame *frame_;
-    for (const auto &process:processes) {
-        if (process->processId == pager->processToMapAgain()) {
-            while (true) {
-                if (process->pte[pager->pageToMapAgain()].refrenced) {
-                    process->pte[pager->pageToMapAgain()].refrenced = 0;
-                    frame_ = pager->selectVictimFrame();
-                } else {
-                    break;
-                }
-            }
+    Frame *current;
+    while (true) {
+        current = pager->selectVictimFrame();
+        Process * temp = findCurrentRunningProcess(current->pID);
+
+        if(temp->pte[current->vpage].refrenced){
+            temp->pte[current->vpage].refrenced=0;
+        } else{
+            break;
         }
     }
-    return frame_;
+    return current;
 }
 
 void printStatmentsAndCalculateCost(int condition, char key, int value, Process* current, Frame* frame1){
@@ -466,11 +464,11 @@ void simulation() {
                         frameTemp = NruHelper();
                     } else if(workingSet_){
                         frameTemp =workingSetHelper();
+                    }else if (clock_) {
+                        //frameTemp = pager->selectVictimFrame();
+                        frameTemp=clockHelper();
                     } else {
                         frameTemp = pager->selectVictimFrame();
-                    }
-                    if (clock_) {
-                        frameTemp=clockHelper();
                     }
                     printStatmentsAndCalculateCost(2,key,value,currentRunningProcess,frameTemp); //UNMAP
                     for (const auto &process:processes) {
