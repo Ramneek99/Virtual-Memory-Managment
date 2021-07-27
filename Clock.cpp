@@ -9,7 +9,7 @@ int page2=0, process2=0, temp=-1;
 
 Frame* Clock::selectVictimFrame(){
     temp++;
-    if(temp==maxFrames){
+    if(temp==fmanager_->frameTable.size()){
         temp=0;
     }
     Frame *frame;

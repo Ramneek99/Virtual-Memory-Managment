@@ -185,7 +185,7 @@ Frame* clockHelper() {
 }
 
 void printStatmentsAndCalculateCost(int condition, char key, int value, Process* current, Frame* frame1){
-    ofstream outputFile("output.txt", ofstream::trunc);
+    ofstream outputFile("output.txt", ofstream::out | ofstream::app);
     switch (condition) {
         case 0:{
             cout << index_ << ": ==> " << key << " " << value << endl;
@@ -386,18 +386,16 @@ void simulation() {
     Process *currentRunningProcess;
     int num_inst = 0;
     for (const auto&[key, value]: instructions) {
-        if (index_ == 36){
-            num_inst = num_inst;
-        }
         if (key == 'c') {
             cxSwitch = cxSwitch + 1;
             cost = cost + 130;
             currentRunningProcess = findCurrentRunningProcess(value);
             printStatmentsAndCalculateCost(0,key,value,currentRunningProcess,frame_);
         } else if (key == 'e') {
+            int fileMappedBit=0;
             processExit = processExit + 1;
             cost = cost + 1250;
-            ofstream outputFile("output.txt", ofstream::trunc);
+            ofstream outputFile("output.txt", ofstream::out | ofstream::app);
             printStatmentsAndCalculateCost(0,key,value,currentRunningProcess,frame_);
             cout << "EXIT current process "<<value<<endl;
             outputFile << "EXIT current process "<<value<<endl;
@@ -405,6 +403,19 @@ void simulation() {
                 if(process->processId==value){
                 for (int i = 0; i < maxPages; i++) {
                         if(process->pte[i].valid) {
+                            for (const auto &vmass:process->vmas) {
+                                if (vmass->startVpage <= fmanager.frameTable[process->pte[i].noOfFrames]->vpage &&
+                                    vmass->endVpage >= fmanager.frameTable[process->pte[i].noOfFrames]->vpage) {
+                                    fileMappedBit = vmass->fileMapped;
+                                }
+                            }
+                            if (process->pte[i].modified && fileMappedBit==1) {
+                                process->pte[i].modified = 0;
+                                process->fouts = process->fouts + 1;
+                                cost = cost + 2400;
+                                cout << " FOUT" << endl;
+                                outputFile << " FOUT" << endl;
+                            }
                             process->pte[i].valid=0;
                             process->pte[i].pageDout=0;
                             process->pte[i].refrenced=0;
@@ -509,7 +520,7 @@ void simulation() {
 }
 
 void inspectFrameTable() {
-    ofstream outputFile("output.txt", ofstream::trunc);
+    ofstream outputFile("output.txt", ofstream::out | ofstream::app);
     cout << "FT: ";
     outputFile << "FT: ";
     for (const auto &frames: fmanager.frameTable) {
@@ -528,7 +539,7 @@ void inspectFrameTable() {
 
 void inspectProcesses() {
     char output[1000];
-    ofstream outputFile("output.txt", ofstream::trunc);
+    ofstream outputFile("output.txt", ofstream::out | ofstream::app);
     for (const auto &process:processes) {
         printf("PROC[%d]: U=%d M=%d I=%d O=%d FI=%d FO=%d Z=%d SV=%d SP=%d\n",
                process->processId,
@@ -547,7 +558,7 @@ void inspectProcesses() {
 
 void printCost() {
     char output[1000];
-    ofstream outputFile("output.txt", ofstream::trunc);
+    ofstream outputFile("output.txt", ofstream::out | ofstream::app);
     instCount = instructions.size();
     printf("TOTALCOST %d %d %d %d %lu\n",
            instCount, cxSwitch, processExit, cost, sizeof(ptee));
@@ -559,7 +570,7 @@ void printCost() {
 
 void inspectPageTable() {
     char output[1000];
-    ofstream outputFile("output.txt", ofstream::trunc);
+    ofstream outputFile("output.txt", ofstream::out | ofstream::app);
     int i = 0;
     for (const auto &process:processes) {
         i=0;
@@ -626,28 +637,29 @@ void takeArguments(int argc, char **argv){
             }
             case 'f': {
                 int test = atoi(optarg);
-                maxFrames = test;
+                int maxFrames = test;
                 fmanager.frameTable.resize(maxFrames);
                 break;
             }
             case 'a': {
                 algoToUse = optarg;
-                if(strcmp(algoToUse, "a")){
+                string algo = algoToUse;
+                if(algo.at(0)=='a'){
                     aging_= true;
                     pager = new Aging(&fmanager, maxFrames);
 
-                } else if( strcmp(algoToUse, "w")){
+                } else if( algo.at(0)=='w'){
                     workingSet_= true;
                     pager = new WorkingSet(&fmanager, maxFrames);
-                } else if(strcmp(algoToUse, "e")){
+                } else if(algo.at(0)=='e'){
                     nru_= true;
                     pager = new NRU(&fmanager, maxFrames);
-                } else if(strcmp(algoToUse, "f")){
+                } else if(algo.at(0)=='f'){
                     pager = new Fifo(&fmanager);
-                } else if(strcmp(algoToUse, "c")){
+                } else if(algo.at(0)=='c'){
                     clock_= true;
                     pager = new Clock(&fmanager, maxFrames);
-                } else if(strcmp(algoToUse, "r")){
+                } else if(algo.at(0)=='r'){
                     pager = new Random(&fmanager,randvals, maxFrames);
                 }
             }

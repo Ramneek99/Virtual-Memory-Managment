@@ -6,7 +6,7 @@
 
 Frame* FrameManager::allocateFrameFromFreeList(){
     int arrSize = frameTable.size();
-    for (int i = 0; i < arrSize+1; i++) {
+    for (int i = 0; i < arrSize; i++) {
         if(frameTable[i]== nullptr){
             Frame *frame = new Frame();
             frame->pID=1;

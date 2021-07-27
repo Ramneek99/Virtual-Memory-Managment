@@ -6,15 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/Users/rimmyaulakh/CLionProjects/VMM/Aging.h
-Pager.h
-/Users/rimmyaulakh/CLionProjects/VMM/Pager.h
+/Users/rimmyaulakh/CLionProjects/VMM/Clock.cpp
+Clock.h
+/Users/rimmyaulakh/CLionProjects/VMM/Clock.h
+Process.h
+/Users/rimmyaulakh/CLionProjects/VMM/Process.h
 
 /Users/rimmyaulakh/CLionProjects/VMM/Clock.h
-Pager.h
-/Users/rimmyaulakh/CLionProjects/VMM/Pager.h
-
-/Users/rimmyaulakh/CLionProjects/VMM/Fifo.h
 Pager.h
 /Users/rimmyaulakh/CLionProjects/VMM/Pager.h
 
@@ -23,6 +21,12 @@ list
 /Users/rimmyaulakh/CLionProjects/VMM/list
 vector
 /Users/rimmyaulakh/CLionProjects/VMM/vector
+
+/Users/rimmyaulakh/CLionProjects/VMM/NRU.cpp
+NRU.h
+/Users/rimmyaulakh/CLionProjects/VMM/NRU.h
+Process.h
+/Users/rimmyaulakh/CLionProjects/VMM/Process.h
 
 /Users/rimmyaulakh/CLionProjects/VMM/NRU.h
 Pager.h
@@ -48,49 +52,13 @@ Vmas.h
 PageTable.h
 /Users/rimmyaulakh/CLionProjects/VMM/PageTable.h
 
-/Users/rimmyaulakh/CLionProjects/VMM/Random.h
-Pager.h
-/Users/rimmyaulakh/CLionProjects/VMM/Pager.h
-vector
-/Users/rimmyaulakh/CLionProjects/VMM/vector
-
 /Users/rimmyaulakh/CLionProjects/VMM/Vmas.h
 
-/Users/rimmyaulakh/CLionProjects/VMM/WorkingSet.h
-Pager.h
-/Users/rimmyaulakh/CLionProjects/VMM/Pager.h
-
-/Users/rimmyaulakh/CLionProjects/VMM/main.cpp
-iostream
--
-fstream
--
-vector
--
-getopt.h
--
-map
-/Users/rimmyaulakh/CLionProjects/VMM/map
-Process.h
-/Users/rimmyaulakh/CLionProjects/VMM/Process.h
-list
-/Users/rimmyaulakh/CLionProjects/VMM/list
-PageTable.h
-/Users/rimmyaulakh/CLionProjects/VMM/PageTable.h
-Frame.h
-/Users/rimmyaulakh/CLionProjects/VMM/Frame.h
-Pager.h
-/Users/rimmyaulakh/CLionProjects/VMM/Pager.h
-Fifo.h
-/Users/rimmyaulakh/CLionProjects/VMM/Fifo.h
-Random.h
-/Users/rimmyaulakh/CLionProjects/VMM/Random.h
-Clock.h
-/Users/rimmyaulakh/CLionProjects/VMM/Clock.h
-Aging.h
-/Users/rimmyaulakh/CLionProjects/VMM/Aging.h
-NRU.h
-/Users/rimmyaulakh/CLionProjects/VMM/NRU.h
+/Users/rimmyaulakh/CLionProjects/VMM/WorkingSet.cpp
 WorkingSet.h
 /Users/rimmyaulakh/CLionProjects/VMM/WorkingSet.h
+
+/Users/rimmyaulakh/CLionProjects/VMM/WorkingSet.h
+Pager.h
+/Users/rimmyaulakh/CLionProjects/VMM/Pager.h
 
