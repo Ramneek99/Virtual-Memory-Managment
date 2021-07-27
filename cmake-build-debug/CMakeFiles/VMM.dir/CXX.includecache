@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/rimmyaulakh/CLionProjects/VMM/Clock.cpp
+Clock.h
+/Users/rimmyaulakh/CLionProjects/VMM/Clock.h
+Process.h
+/Users/rimmyaulakh/CLionProjects/VMM/Process.h
+
+/Users/rimmyaulakh/CLionProjects/VMM/Clock.h
+Pager.h
+/Users/rimmyaulakh/CLionProjects/VMM/Pager.h
+
+/Users/rimmyaulakh/CLionProjects/VMM/Frame.h
+list
+/Users/rimmyaulakh/CLionProjects/VMM/list
+vector
+/Users/rimmyaulakh/CLionProjects/VMM/vector
+
+/Users/rimmyaulakh/CLionProjects/VMM/PageTable.h
+cstdint
+-
+
+/Users/rimmyaulakh/CLionProjects/VMM/Pager.h
+Frame.h
+/Users/rimmyaulakh/CLionProjects/VMM/Frame.h
+
+/Users/rimmyaulakh/CLionProjects/VMM/Process.h
+list
+-
+iostream
+-
+vector
+/Users/rimmyaulakh/CLionProjects/VMM/vector
+Vmas.h
+/Users/rimmyaulakh/CLionProjects/VMM/Vmas.h
+PageTable.h
+/Users/rimmyaulakh/CLionProjects/VMM/PageTable.h
+
+/Users/rimmyaulakh/CLionProjects/VMM/Vmas.h
+

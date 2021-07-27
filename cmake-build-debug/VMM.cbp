@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="VMM"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="VMM">
+				<Option output="/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/VMM" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 VMM"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="VMM/fast">
+				<Option output="/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/VMM" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 VMM/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/rimmyaulakh/CLionProjects/VMM/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Aging.cpp">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Aging.h">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Clock.cpp">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Clock.h">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Fifo.cpp">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Fifo.h">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Frame.cpp">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Frame.h">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/NRU.cpp">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/NRU.h">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/PageTable.cpp">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/PageTable.h">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Pager.cpp">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Pager.h">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Process.cpp">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Process.h">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Random.cpp">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Random.h">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Vmas.cpp">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/Vmas.h">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/WorkingSet.cpp">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/WorkingSet.h">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/main.cpp">
+			<Option target="VMM"/>
+		</Unit>
+		<Unit filename="/Users/rimmyaulakh/CLionProjects/VMM/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
