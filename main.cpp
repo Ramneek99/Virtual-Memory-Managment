@@ -410,6 +410,11 @@ void simulation() {
                                     fileMappedBit = vmass->fileMapped;
                                 }
                             }
+                            cout << " UNMAP " << process->processId << ":" << fmanager.frameTable[process->pte[i].noOfFrames]->vpage << endl;
+//                        if(fmanager.frameTable[i]->pID==process->processId) {
+                            outputFile << " UNMAP " << process->processId << ":" << fmanager.frameTable[process->pte[i].noOfFrames]->vpage << endl;
+//                            fmanager.frameTable[process->pte[i].noOfFrames] = nullptr;
+//                            fmanager.sequencePages.push_back(process->pte[i].noOfFrames);
                             if (process->pte[i].modified && fileMappedBit==1) {
                                 process->pte[i].modified = 0;
                                 process->fouts = process->fouts + 1;
@@ -417,19 +422,17 @@ void simulation() {
                                 cout << " FOUT" << endl;
                                 outputFile << " FOUT" << endl;
                             }
-                            process->pte[i].valid=0;
-                            process->pte[i].pageDout=0;
-                            process->pte[i].refrenced=0;
                             process->unmaps=process->unmaps+1;
                             cost = cost + 400;
                             process->pte[i].modified=0;
-                            cout << " UNMAP " << process->processId << ":" << fmanager.frameTable[process->pte[i].noOfFrames]->vpage << endl;
-//                        if(fmanager.frameTable[i]->pID==process->processId) {
-                            outputFile << " UNMAP " << process->processId << ":" << fmanager.frameTable[process->pte[i].noOfFrames]->vpage << endl;
                             fmanager.frameTable[process->pte[i].noOfFrames] = nullptr;
+                            //process->pte[i].noOfFrames=0;
                             fmanager.sequencePages.push_back(process->pte[i].noOfFrames);
-
+                            process->pte[i].noOfFrames=0;
                         }
+                    process->pte[i].valid=0;
+                    process->pte[i].pageDout=0;
+                    process->pte[i].refrenced=0;
                     }
                 }
             }
