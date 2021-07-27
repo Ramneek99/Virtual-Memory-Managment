@@ -161,7 +161,6 @@ Process *findCurrentRunningProcess(int value) {
     for (const auto &process:processes) {
         if (process->processId == value) {
             currentRunningProcess = process;
-            //cout<<"Process Id: "<< currentRunningProcess->processId<<endl;
         }
     }
     return currentRunningProcess;
@@ -409,10 +408,7 @@ void simulation() {
                                 }
                             }
                             cout << " UNMAP " << process->processId << ":" << fmanager.frameTable[process->pte[i].noOfFrames]->vpage << endl;
-//                        if(fmanager.frameTable[i]->pID==process->processId) {
                             outputFile << " UNMAP " << process->processId << ":" << fmanager.frameTable[process->pte[i].noOfFrames]->vpage << endl;
-//                            fmanager.frameTable[process->pte[i].noOfFrames] = nullptr;
-//                            fmanager.sequencePages.push_back(process->pte[i].noOfFrames);
                             if (process->pte[i].modified && fileMappedBit==1) {
                                 process->pte[i].modified = 0;
                                 process->fouts = process->fouts + 1;
@@ -424,7 +420,6 @@ void simulation() {
                             cost = cost + 400;
                             process->pte[i].modified=0;
                             fmanager.frameTable[process->pte[i].noOfFrames] = nullptr;
-                            //process->pte[i].noOfFrames=0;
                             fmanager.sequencePages.push_back(process->pte[i].noOfFrames);
                             process->pte[i].noOfFrames=0;
                         }
@@ -435,7 +430,6 @@ void simulation() {
                 }
             }
             outputFile.close();
-            //do something
         } else {
             execute= true;
             cost = cost + 1;
@@ -504,7 +498,6 @@ void simulation() {
                 currentRunningProcess->pte[value].noOfFrames = fmanager.framePosition(frameTemp);
                 printStatmentsAndCalculateCost(8,key,value,currentRunningProcess,frameTemp);
                 currentRunningProcess->pte[value].valid = 1;
-//                currentRunningProcess->pte[value].refrenced = 1;
             }
             if(execute) {
                 currentRunningProcess->pte[value].refrenced = 1;
@@ -670,10 +663,7 @@ void takeArguments(int argc, char **argv){
 }
 
 int main(int argc, char **argv) {
-//    maxFrames = 16;
     takeArguments(argc,argv);
-//    file = "/Users/rimmyaulakh/CLionProjects/VMM/input.txt";
-//    rfile = "/Users/rimmyaulakh/CLionProjects/VMM/rfile.txt";
     file = argv[optind];
     rfile=argv[optind + 1];
     readRFile();
