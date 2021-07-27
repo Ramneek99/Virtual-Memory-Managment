@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <getopt.h>
+#include "cstring"
 #include "map"
 #include "Process.h"
 #include "list"
