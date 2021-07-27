@@ -9,7 +9,7 @@ int page2=0, process2=0, temp=-1;
 
 Frame* Clock::selectVictimFrame(){
     temp++;
-    if(temp==fmanager_->maxFrames){
+    if(temp==maxFrames){
         temp=0;
     }
     Frame *frame;

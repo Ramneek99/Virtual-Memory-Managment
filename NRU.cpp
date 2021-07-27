@@ -8,7 +8,7 @@
 //int page4=0, process4=0, temp4=-1;
 
 Frame* NRU::selectVictimFrame(){
-    if(temp5 >= fmanager_->maxFrames){
+    if(temp5 >= maxFrames){
         temp5=0;
     }
     Frame *frame;

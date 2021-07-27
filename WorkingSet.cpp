@@ -4,7 +4,7 @@
 
 #include "WorkingSet.h"
 Frame* WorkingSet::selectVictimFrame(){
-    if(temp5 >= fmanager_->maxFrames){
+    if(temp5 >= maxFrames){
         temp5=0;
     }
     Frame *frame;

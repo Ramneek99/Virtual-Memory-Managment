@@ -274,7 +274,7 @@ void printStatmentsAndCalculateCost(int condition, char key, int value, Process*
     outputFile.close();
 }
 void resetRefrenced(){
-    for (int i = 0; i < fmanager.maxFrames; i++)
+    for (int i = 0; i < maxFrames; i++)
     {
         Frame *current = fmanager.frameTable[i];
         for(const auto &process: processes){
@@ -291,7 +291,7 @@ Frame * NruHelper(){
     int threshH = 49, lClass = 100;
     Frame *frame_= nullptr;
     Frame *current;
-    for(int i=0; i<fmanager.maxFrames; i++) {
+    for(int i=0; i<maxFrames; i++) {
         current = pager->selectVictimFrame();
         Process * temp = findCurrentRunningProcess(current->pID);
         int eClass = (2 * temp->pte[current->vpage].refrenced) + temp->pte[pager->pageToMapAgain()].modified;
@@ -323,7 +323,7 @@ Frame * NruHelper(){
 Frame * agingHelper(){
     Frame *frame_= nullptr;
     Frame *current;
-    for(int i=0; i<fmanager.maxFrames; i++) {
+    for(int i=0; i<maxFrames; i++) {
         current = pager->selectVictimFrame();
         current->ageCounter=current->ageCounter >> 1;
         for(const auto& process:processes){
@@ -347,7 +347,7 @@ Frame * agingHelper(){
 Frame * workingSetHelper(){
     Frame *frame_= nullptr;
     Frame *current;
-    for(int i=0; i<fmanager.maxFrames; i++) {
+    for(int i=0; i<maxFrames; i++) {
         current = pager->selectVictimFrame();
         Process * temp = findCurrentRunningProcess(current->pID);
         int age = instCount - current->tStamp;
@@ -624,28 +624,45 @@ void takeArguments(int argc, char **argv){
                 OPFS = optarg;
                 break;
             }
-            case 'a': {
-                algoToUse = optarg;
+            case 'f': {
+                int test = atoi(optarg);
+                maxFrames = test;
+                fmanager.frameTable.resize(maxFrames);
                 break;
             }
-            case 'f': {
-                fmanager.maxFrames = atoi(optarg);
-                break;
+            case 'a': {
+                algoToUse = optarg;
+                if(strcmp(algoToUse, "a")){
+                    aging_= true;
+                    pager = new Aging(&fmanager, maxFrames);
+
+                } else if( strcmp(algoToUse, "w")){
+                    workingSet_= true;
+                    pager = new WorkingSet(&fmanager, maxFrames);
+                } else if(strcmp(algoToUse, "e")){
+                    nru_= true;
+                    pager = new NRU(&fmanager, maxFrames);
+                } else if(strcmp(algoToUse, "f")){
+                    pager = new Fifo(&fmanager);
+                } else if(strcmp(algoToUse, "c")){
+                    clock_= true;
+                    pager = new Clock(&fmanager, maxFrames);
+                } else if(strcmp(algoToUse, "r")){
+                    pager = new Random(&fmanager,randvals, maxFrames);
+                }
             }
         }
     }
 }
 
-int main() {
-    //takeArguments(argc,argv);
-    file = "/Users/rimmyaulakh/CLionProjects/VMM/input.txt";
-    rfile = "/Users/rimmyaulakh/CLionProjects/VMM/rfile.txt";
+int main(int argc, char **argv) {
+//    maxFrames = 16;
+    takeArguments(argc,argv);
+//    file = "/Users/rimmyaulakh/CLionProjects/VMM/input.txt";
+//    rfile = "/Users/rimmyaulakh/CLionProjects/VMM/rfile.txt";
+    file = argv[optind];
+    rfile=argv[optind + 1];
     readRFile();
-    //clock_= true;
-    //aging_= true;
-    workingSet_= true;
-    //nru_= true;
-    pager = new WorkingSet(&fmanager, fmanager.maxFrames);
     simulation();
     inspectPageTable();
     inspectFrameTable();

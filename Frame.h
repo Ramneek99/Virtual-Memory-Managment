@@ -7,6 +7,8 @@
 #include "list"
 #include "vector"
 
+static int maxFrames;
+
 struct Frame{
     int pID;
     int vpage;
@@ -16,7 +18,7 @@ struct Frame{
 
 class FrameManager {
 public:
-    int maxFrames=16;
+
     std::list<int> sequencePages;
     Frame* allocateFrameFromFreeList();
     Frame* getFrame();

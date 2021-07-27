@@ -9,7 +9,7 @@ int page=0, process=0;
 
 Frame* Fifo::selectVictimFrame(){
     j++;
-    if(j==fmanager_->maxFrames){
+    if(j==maxFrames){
         j=0;
     }
     Frame *frame = new Frame();

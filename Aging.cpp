@@ -8,7 +8,7 @@
 //int page5=0, process5=0, temp5=-1;
 
 Frame* Aging::selectVictimFrame(){
-    if(temp5 >= fmanager_->maxFrames){
+    if(temp5 >= maxFrames){
         temp5=0;
     }
     Frame *frame;
