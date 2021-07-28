@@ -9,10 +9,10 @@
 
 class Random: public Pager{
 public:
-    explicit Random(FrameManager* fmanager, std::vector<int>rfile, int maxFrames){
+    explicit Random(FrameManager* fmanager, std::vector<int>rfile, int maxFramess){
         fmanager_ = fmanager;
         rfile_=rfile;
-        maxFrames_=maxFrames;
+        maxFrames_=maxFramess;
     }
     std::vector<int>rfile_;
     FrameManager* fmanager_;

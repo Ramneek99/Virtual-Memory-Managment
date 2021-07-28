@@ -17,7 +17,7 @@ int Random::myrandom(std::vector<int>rfile_, int burst) {
 }
 
 Frame* Random::selectVictimFrame(){
-    int rand = myrandom(rfile_,maxFrames_);
+    int rand = myrandom(rfile_,fmanager_->frameTable.size());
     Frame *frame = new Frame();
     page1 = fmanager_->frameTable[rand]->vpage;
     process1=fmanager_->frameTable[rand]->pID;

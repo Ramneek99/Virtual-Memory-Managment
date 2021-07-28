@@ -20,7 +20,7 @@ using namespace std;
 
 fstream InputFile;
 char tempStr[1024];
-char *strPointer;
+char *strPointer, *algoToUse;;
 int LineCount = 0, maxFrame = 16, maxPages = 63;
 int cxSwitch = 0, instCount = 0, processExit = 0, cost = 0, ofs = 0;
 int index_ = 0;
@@ -380,7 +380,6 @@ Frame * workingSetHelper(){
 }
 
 void simulation() {
-    addSpecifications();
     Process *currentRunningProcess;
     int num_inst = 0;
     for (const auto&[key, value]: instructions) {
@@ -555,7 +554,7 @@ void printCost() {
     char output[1000];
     ofstream outputFile("output.txt", ofstream::out | ofstream::app);
     instCount = instructions.size();
-    printf("TOTALCOST %d %d %d %d %lu\n",
+    printf("TOTALCOST %ld %d %d %d %lu\n",
            instCount, cxSwitch, processExit, cost, sizeof(ptee));
     sprintf(output,"TOTALCOST %d %d %d %d %lu\n",
             instCount, cxSwitch, processExit, cost, sizeof(ptee));
@@ -618,8 +617,30 @@ void inspectPageTable() {
     outputFile.close();
 //    cout << endl;
 }
+
+void findAlgorithm(char * tempChar){
+    string algo = tempChar;
+    if(algo.at(0)=='a'){
+        aging_= true;
+        pager = new Aging(&fmanager, maxFrames);
+
+    } else if( algo.at(0)=='w'){
+        workingSet_= true;
+        pager = new WorkingSet(&fmanager, maxFrames);
+    } else if(algo.at(0)=='e'){
+        nru_= true;
+        pager = new NRU(&fmanager, maxFrames);
+    } else if(algo.at(0)=='f'){
+        pager = new Fifo(&fmanager);
+    } else if(algo.at(0)=='c'){
+        clock_= true;
+        pager = new Clock(&fmanager, maxFrames);
+    } else if(algo.at(0)=='r'){
+        pager = new Random(&fmanager,randvals, maxFrames);
+    }
+}
 void takeArguments(int argc, char **argv){
-    char *algoToUse;
+    algoToUse;
     int options;
     char *OPFS;
     while ((options = getopt(argc, argv, "o:a:f:")) != -1)
@@ -638,25 +659,6 @@ void takeArguments(int argc, char **argv){
             }
             case 'a': {
                 algoToUse = optarg;
-                string algo = algoToUse;
-                if(algo.at(0)=='a'){
-                    aging_= true;
-                    pager = new Aging(&fmanager, maxFrames);
-
-                } else if( algo.at(0)=='w'){
-                    workingSet_= true;
-                    pager = new WorkingSet(&fmanager, maxFrames);
-                } else if(algo.at(0)=='e'){
-                    nru_= true;
-                    pager = new NRU(&fmanager, maxFrames);
-                } else if(algo.at(0)=='f'){
-                    pager = new Fifo(&fmanager);
-                } else if(algo.at(0)=='c'){
-                    clock_= true;
-                    pager = new Clock(&fmanager, maxFrames);
-                } else if(algo.at(0)=='r'){
-                    pager = new Random(&fmanager,randvals, maxFrames);
-                }
             }
         }
     }
@@ -665,8 +667,10 @@ void takeArguments(int argc, char **argv){
 int main(int argc, char **argv) {
     takeArguments(argc,argv);
     file = argv[optind];
+    addSpecifications();
     rfile=argv[optind + 1];
     readRFile();
+    findAlgorithm(algoToUse);
     simulation();
     inspectPageTable();
     inspectFrameTable();
