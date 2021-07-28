@@ -21,9 +21,10 @@ using namespace std;
 fstream InputFile;
 char tempStr[1024];
 char *strPointer, *algoToUse;;
-int LineCount = 0, maxFrame = 16, maxPages = 63;
+int LineCount = 0, maxFrame = 32, maxPages = 63;
 int cxSwitch = 0, instCount = 0, processExit = 0, cost = 0, ofs = 0;
 int index_ = 0;
+int threshH = 49;
 string line, file;
 string rfile;
 string ln;
@@ -290,33 +291,27 @@ void resetRefrenced(){
 }
 
 Frame * NruHelper(){
-    int threshH = 49, lClass = 100;
+    int lClass = 100;
     Frame *frame_= nullptr;
-    Frame *current;
+    Frame *current1 = nullptr ;
     for(int i=0; i<fmanager.frameTable.size(); i++) {
-        current = pager->selectVictimFrame();
-        Process * temp = findCurrentRunningProcess(current->pID);
-        int eClass = (2 * temp->pte[current->vpage].refrenced) + temp->pte[pager->pageToMapAgain()].modified;
+        current1 = pager->selectVictimFrame();
+        Process * temp = findCurrentRunningProcess(current1->pID);
+        int eClass = (2 * int(temp->pte[current1->vpage].refrenced)) + int(temp->pte[pager->pageToMapAgain()].modified);
 
-        for(const auto& process:processes){
-            if(pager->processToMapAgain()==process->processId){
-                if(process->pte[pager->pageToMapAgain()].refrenced){
-                    current->ageCounter=current->ageCounter | 0x80000000;
-                }
-                if(frame_== nullptr || eClass < lClass){
-                    frame_=current;
-                    lClass=eClass;
-                }
-                if(lClass==100)
-                    break;
-            }
+        if(frame_== nullptr || eClass < lClass){
+            frame_=current1;
+            lClass=eClass;
+        }
+        if(lClass==0) {
+            break;
         }
     }
     pager->process5=frame_->pID;
     pager->page5=frame_->vpage;
     pager->temp5=fmanager.framePosition(frame_)+1;
-    if(instCount >= threshH){
-        threshH=instCount+50;
+    if(index_ >= threshH){
+        threshH=index_+50;
         resetRefrenced();
     }
     return frame_;
@@ -352,11 +347,11 @@ Frame * workingSetHelper(){
     for(int i=0; i<fmanager.frameTable.size(); i++) {
         current = pager->selectVictimFrame();
         Process * temp = findCurrentRunningProcess(current->pID);
-        int age = instCount - current->tStamp;
+        int age = index_ - current->tStamp;
         Process * tempW = findCurrentRunningProcess(current->pID);
 
         if(tempW->pte[current->vpage].refrenced){
-            current->tStamp = instCount;
+            current->tStamp = index_;
             tempW->pte[current->vpage].refrenced = 0;
             if (frame_ == nullptr)
             {
@@ -434,6 +429,9 @@ void simulation() {
             }
             outputFile.close();
         } else {
+            if(index_==62){
+                index_=index_;
+            }
             execute= true;
             cost = cost + 1;
             printStatmentsAndCalculateCost(0,key,value,currentRunningProcess,frame_);
