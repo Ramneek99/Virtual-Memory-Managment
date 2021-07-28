@@ -272,15 +272,19 @@ void printStatmentsAndCalculateCost(int condition, char key, int value, Process*
     outputFile.close();
 }
 void resetRefrenced(){
-    for (int i = 0; i < maxFrames; i++)
+    for (int i = 0; i < fmanager.frameTable.size(); i++)
     {
         Frame *current = fmanager.frameTable[i];
-        for(const auto &process: processes){
-            if(process->processId==current->pID){
-                if(process->pte[current->vpage].valid){
-                    process->pte[current->vpage].refrenced=0;
-                }
-            }
+//        for(const auto &process: processes){
+//            if(process->processId==current->pID){
+//                if(process->pte[current->vpage].valid){
+//                    process->pte[current->vpage].refrenced=0;
+//                }
+//            }
+//        }
+        Process * currentProcess = findCurrentRunningProcess(current->pID);
+        if(currentProcess->pte[current->vpage].valid){
+            currentProcess->pte[current->vpage].refrenced=0;
         }
     }
 }
