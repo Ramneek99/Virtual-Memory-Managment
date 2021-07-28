@@ -28,7 +28,7 @@ int threshH = 49;
 string line, file;
 string rfile;
 string ln;
-bool newLine = true, addProcess = true, commentCheck = true, clock_ = false, aging_= false, execute= true, nru_= false, workingSet_= false;
+bool newLine = true, addProcess = true, commentCheck = true, clock_ = false, aging_ = false, execute = true, nru_ = false, workingSet_ = false;
 FrameManager fmanager;
 vector<int> randvals;
 
@@ -36,7 +36,7 @@ list<Process *> processes;
 vector<pair<char, int>> instructions;
 
 Frame frame;
-Frame * frame_ = new Frame();
+Frame *frame_ = new Frame();
 pageTable ptee;
 Pager *pager;
 
@@ -168,39 +168,39 @@ Process *findCurrentRunningProcess(int value) {
 }
 
 
-Frame* clockHelper() {
+Frame *clockHelper() {
     Frame *current;
     while (true) {
         current = pager->selectVictimFrame();
-        Process * temp = findCurrentRunningProcess(current->pID);
+        Process *temp = findCurrentRunningProcess(current->pID);
 
-        if(temp->pte[current->vpage].refrenced){
-            temp->pte[current->vpage].refrenced=0;
-        } else{
+        if (temp->pte[current->vpage].refrenced) {
+            temp->pte[current->vpage].refrenced = 0;
+        } else {
             break;
         }
     }
     return current;
 }
 
-void printStatmentsAndCalculateCost(int condition, char key, int value, Process* current, Frame* frame1){
+void printStatmentsAndCalculateCost(int condition, char key, int value, Process *current, Frame *frame1) {
     ofstream outputFile("output.txt", ofstream::out | ofstream::app);
     switch (condition) {
-        case 0:{
+        case 0: {
             cout << index_ << ": ==> " << key << " " << value << endl;
             outputFile << index_ << ": ==> " << key << " " << value << endl;
             break;
         }
-        case 1:{
+        case 1: {
             current->segvs = current->segvs + 1;
             cost = cost + 340;
             cout << " SEGV" << endl;
             outputFile << " SEGV" << endl;
             break;
         }
-        case 2:{
-            Process* f_pros = findCurrentRunningProcess(pager->processToMapAgain());
-            if (f_pros == nullptr){
+        case 2: {
+            Process *f_pros = findCurrentRunningProcess(pager->processToMapAgain());
+            if (f_pros == nullptr) {
                 cout << "Cannot find process for " << frame1 << endl;
                 outputFile << "Cannot find process for " << frame1 << endl;
             }
@@ -211,9 +211,9 @@ void printStatmentsAndCalculateCost(int condition, char key, int value, Process*
             outputFile << " UNMAP " << pager->processToMapAgain() << ":" << pager->pageToMapAgain() << endl;
             break;
         }
-        case 3:{
-            Process* f_pros = findCurrentRunningProcess(pager->processToMapAgain());
-            if (f_pros == nullptr){
+        case 3: {
+            Process *f_pros = findCurrentRunningProcess(pager->processToMapAgain());
+            if (f_pros == nullptr) {
                 cout << "Cannot find process for " << frame1 << endl;
                 outputFile << "Cannot find process for " << frame1 << endl;
             }
@@ -223,9 +223,9 @@ void printStatmentsAndCalculateCost(int condition, char key, int value, Process*
             outputFile << " OUT" << endl;
             break;
         }
-        case 4:{
-            Process* f_pros = findCurrentRunningProcess(pager->processToMapAgain());
-            if (f_pros == nullptr){
+        case 4: {
+            Process *f_pros = findCurrentRunningProcess(pager->processToMapAgain());
+            if (f_pros == nullptr) {
                 cout << "Cannot find process for " << frame1 << endl;
                 outputFile << "Cannot find process for " << frame1 << endl;
             }
@@ -235,34 +235,34 @@ void printStatmentsAndCalculateCost(int condition, char key, int value, Process*
             outputFile << " FOUT" << endl;
             break;;
         }
-        case 5:{
+        case 5: {
             current->fins = current->fins + 1;
             cost = cost + 2800;
             cout << " FIN" << endl;
             outputFile << " FIN" << endl;
             break;
         }
-        case 6:{
+        case 6: {
             current->zeros = current->zeros + 1;
             cost = cost + 140;
             cout << " ZERO" << endl;
             outputFile << " ZERO" << endl;
             break;
         }
-        case 7:{
+        case 7: {
             current->ins = current->ins + 1;
             cost = cost + 3100;
             cout << " IN" << endl;
             outputFile << " IN" << endl;
             break;
         }
-        case 8:{
+        case 8: {
             cost = cost + 300;
             cout << " MAP " << fmanager.framePosition(frame1) << endl;
             outputFile << " MAP " << fmanager.framePosition(frame1) << endl;
             break;
         }
-        case 9:{
+        case 9: {
             current->segprouts = current->segprouts + 1;
             cost = cost + 420;
             cout << " SEGPROT" << endl;
@@ -272,109 +272,94 @@ void printStatmentsAndCalculateCost(int condition, char key, int value, Process*
     }
     outputFile.close();
 }
-void resetRefrenced(){
-    for (int i = 0; i < fmanager.frameTable.size(); i++)
-    {
+
+void resetRefrenced() {
+    for (int i = 0; i < fmanager.frameTable.size(); i++) {
         Frame *current = fmanager.frameTable[i];
-//        for(const auto &process: processes){
-//            if(process->processId==current->pID){
-//                if(process->pte[current->vpage].valid){
-//                    process->pte[current->vpage].refrenced=0;
-//                }
-//            }
-//        }
-        Process * currentProcess = findCurrentRunningProcess(current->pID);
-        if(currentProcess->pte[current->vpage].valid){
-            currentProcess->pte[current->vpage].refrenced=0;
+        Process *currentProcess = findCurrentRunningProcess(current->pID);
+        if (currentProcess->pte[current->vpage].valid) {
+            currentProcess->pte[current->vpage].refrenced = 0;
         }
     }
 }
 
-Frame * NruHelper(){
+Frame *NruHelper() {
     int lClass = 100;
-    Frame *frame_= nullptr;
-    Frame *current1 = nullptr ;
-    for(int i=0; i<fmanager.frameTable.size(); i++) {
+    Frame *frame_ = nullptr;
+    Frame *current1 = nullptr;
+    for (int i = 0; i < fmanager.frameTable.size(); i++) {
         current1 = pager->selectVictimFrame();
-        Process * temp = findCurrentRunningProcess(current1->pID);
+        Process *temp = findCurrentRunningProcess(current1->pID);
         int eClass = (2 * int(temp->pte[current1->vpage].refrenced)) + int(temp->pte[pager->pageToMapAgain()].modified);
 
-        if(frame_== nullptr || eClass < lClass){
-            frame_=current1;
-            lClass=eClass;
+        if (frame_ == nullptr || eClass < lClass) {
+            frame_ = current1;
+            lClass = eClass;
         }
-        if(lClass==0) {
+        if (lClass == 0) {
             break;
         }
     }
-    pager->process5=frame_->pID;
-    pager->page5=frame_->vpage;
-    pager->temp5=fmanager.framePosition(frame_)+1;
-    if(index_ >= threshH){
-        threshH=index_+50;
+    pager->process5 = frame_->pID;
+    pager->page5 = frame_->vpage;
+    pager->temp5 = fmanager.framePosition(frame_) + 1;
+    if (index_ >= threshH) {
+        threshH = index_ + 50;
         resetRefrenced();
     }
     return frame_;
 }
 
-Frame * agingHelper(){
-    Frame *frame_= nullptr;
-    Frame *current;
-    for(int i=0; i<fmanager.frameTable.size(); i++) {
+Frame *agingHelper() {
+    Frame *frame_ = nullptr;
+    Frame *current = nullptr;
+    for (int i = 0; i < fmanager.frameTable.size(); i++) {
         current = pager->selectVictimFrame();
-        current->ageCounter=current->ageCounter >> 1;
-        for(const auto& process:processes){
-            if(pager->processToMapAgain()==process->processId){
-                if(process->pte[pager->pageToMapAgain()].refrenced){
-                    current->ageCounter=current->ageCounter | 0x80000000;
-                }
-                if(frame_== nullptr || current->ageCounter < frame_->ageCounter){
-                    frame_=current;
-                }
-            }
+        current->ageCounter = current->ageCounter >> 1;
+        Process *proc = findCurrentRunningProcess(current->pID);
+        if (proc->pte[current->vpage].refrenced) {
+            current->ageCounter = current->ageCounter | 0x80000000;
+            proc->pte[current->vpage].refrenced=0;}
+        if (frame_ == nullptr || current->ageCounter < frame_->ageCounter) {
+            frame_ = current;
         }
     }
-    resetRefrenced();
-    pager->process5=frame_->pID;
-    pager->page5=frame_->vpage;
-    pager->temp5=fmanager.framePosition(frame_)+1;
+    frame_->ageCounter=0;
+    pager->process5 = frame_->pID;
+    pager->page5 = frame_->vpage;
+    pager->temp5 = fmanager.framePosition(frame_) + 1;
     return frame_;
 }
 
-Frame * workingSetHelper(){
-    Frame *frame_= nullptr;
+Frame *workingSetHelper() {
+    Frame *frame_ = nullptr;
     Frame *current;
-    for(int i=0; i<fmanager.frameTable.size(); i++) {
+    for (int i = 0; i < fmanager.frameTable.size(); i++) {
         current = pager->selectVictimFrame();
-        Process * temp = findCurrentRunningProcess(current->pID);
+        Process *temp = findCurrentRunningProcess(current->pID);
         int age = index_ - current->tStamp;
-        Process * tempW = findCurrentRunningProcess(current->pID);
+        Process *tempW = findCurrentRunningProcess(current->pID);
 
-        if(tempW->pte[current->vpage].refrenced){
+        if (tempW->pte[current->vpage].refrenced) {
             current->tStamp = index_;
             tempW->pte[current->vpage].refrenced = 0;
-            if (frame_ == nullptr)
-            {
+            if (frame_ == nullptr) {
                 frame_ = current;
             }
         } else {
-            if (age >= 50)
-            {
+            if (age >= 50) {
                 frame_ = current;
                 break;
-            }
-            else
-            {
-                if (frame_ == nullptr || current->tStamp < frame_->tStamp)
-                {
+            } else {
+                if (frame_ == nullptr || current->tStamp < frame_->tStamp) {
                     frame_ = current;
                 }
             }
         }
     }
-    pager->process5=frame_->pID;
-    pager->page5=frame_->vpage;
-    pager->temp5=fmanager.framePosition(frame_)+1;
+    pager->process5 = frame_->pID;
+    pager->page5 = frame_->vpage;
+    pager->temp5 = fmanager.framePosition(frame_) + 1;
     return frame_;
 }
 
@@ -386,86 +371,88 @@ void simulation() {
             cxSwitch = cxSwitch + 1;
             cost = cost + 130;
             currentRunningProcess = findCurrentRunningProcess(value);
-            printStatmentsAndCalculateCost(0,key,value,currentRunningProcess,frame_);
+            printStatmentsAndCalculateCost(0, key, value, currentRunningProcess, frame_);
         } else if (key == 'e') {
-            int fileMappedBit=0;
+            int fileMappedBit = 0;
             processExit = processExit + 1;
             cost = cost + 1250;
             ofstream outputFile("output.txt", ofstream::out | ofstream::app);
-            printStatmentsAndCalculateCost(0,key,value,currentRunningProcess,frame_);
-            cout << "EXIT current process "<<value<<endl;
-            outputFile << "EXIT current process "<<value<<endl;
-            for(const auto &process:processes) {
-                if(process->processId==value){
-                for (int i = 0; i < maxPages; i++) {
-                        if(process->pte[i].valid) {
+            printStatmentsAndCalculateCost(0, key, value, currentRunningProcess, frame_);
+            cout << "EXIT current process " << value << endl;
+            outputFile << "EXIT current process " << value << endl;
+            for (const auto &process:processes) {
+                if (process->processId == value) {
+                    for (int i = 0; i < maxPages; i++) {
+                        if (process->pte[i].valid) {
                             for (const auto &vmass:process->vmas) {
                                 if (vmass->startVpage <= fmanager.frameTable[process->pte[i].noOfFrames]->vpage &&
                                     vmass->endVpage >= fmanager.frameTable[process->pte[i].noOfFrames]->vpage) {
                                     fileMappedBit = vmass->fileMapped;
                                 }
                             }
-                            cout << " UNMAP " << process->processId << ":" << fmanager.frameTable[process->pte[i].noOfFrames]->vpage << endl;
-                            outputFile << " UNMAP " << process->processId << ":" << fmanager.frameTable[process->pte[i].noOfFrames]->vpage << endl;
-                            if (process->pte[i].modified && fileMappedBit==1) {
+                            cout << " UNMAP " << process->processId << ":"
+                                 << fmanager.frameTable[process->pte[i].noOfFrames]->vpage << endl;
+                            outputFile << " UNMAP " << process->processId << ":"
+                                       << fmanager.frameTable[process->pte[i].noOfFrames]->vpage << endl;
+                            if (process->pte[i].modified && fileMappedBit == 1) {
                                 process->pte[i].modified = 0;
                                 process->fouts = process->fouts + 1;
                                 cost = cost + 2400;
                                 cout << " FOUT" << endl;
                                 outputFile << " FOUT" << endl;
                             }
-                            process->unmaps=process->unmaps+1;
+                            process->unmaps = process->unmaps + 1;
                             cost = cost + 400;
-                            process->pte[i].modified=0;
+                            process->pte[i].modified = 0;
                             fmanager.frameTable[process->pte[i].noOfFrames] = nullptr;
                             fmanager.sequencePages.push_back(process->pte[i].noOfFrames);
-                            process->pte[i].noOfFrames=0;
+                            process->pte[i].noOfFrames = 0;
                         }
-                    process->pte[i].valid=0;
-                    process->pte[i].pageDout=0;
-                    process->pte[i].refrenced=0;
+                        process->pte[i].valid = 0;
+                        process->pte[i].pageDout = 0;
+                        process->pte[i].refrenced = 0;
                     }
                 }
             }
             outputFile.close();
         } else {
-            if(index_==62){
-                index_=index_;
+            if (index_ == 81) {
+                index_ = index_;
             }
-            execute= true;
+            execute = true;
             cost = cost + 1;
-            printStatmentsAndCalculateCost(0,key,value,currentRunningProcess,frame_);
+            printStatmentsAndCalculateCost(0, key, value, currentRunningProcess, frame_);
             int fileMappedBitCurrent = -1, writeProtectedCurrent;
             pageTable *pte_ = &currentRunningProcess->pte[value];
 //            if (!pte_->valid) {
-                for (const auto &vmass:currentRunningProcess->vmas) {
-                    if (vmass->startVpage <= value && vmass->endVpage >= value) {
-                        fileMappedBitCurrent = vmass->fileMapped;
-                        writeProtectedCurrent = vmass->writeProtected;
-                        break;
-                    } else if (vmass->endVpage == maxPages) {
-                        printStatmentsAndCalculateCost(1,key,value,currentRunningProcess,frame_); //SEGV
-                        execute= false;
-                    }
+            for (const auto &vmass:currentRunningProcess->vmas) {
+                if (vmass->startVpage <= value && vmass->endVpage >= value) {
+                    fileMappedBitCurrent = vmass->fileMapped;
+                    writeProtectedCurrent = vmass->writeProtected;
+                    break;
+                } else if (vmass->endVpage == maxPages) {
+                    printStatmentsAndCalculateCost(1, key, value, currentRunningProcess, frame_); //SEGV
+                    execute = false;
                 }
+            }
 //            }
             if (!pte_->valid && execute) {
                 Frame *frameTemp = fmanager.getFrame();
                 int fileMappedBit = -1;
                 if (frameTemp == nullptr) {
-                    if(aging_){
-                        frameTemp= agingHelper();
-                    } else if(nru_){
+                    if (aging_) {
+                        frameTemp = agingHelper();
+                    } else if (nru_) {
                         frameTemp = NruHelper();
-                    } else if(workingSet_){
-                        frameTemp =workingSetHelper();
-                    }else if (clock_) {
+                    } else if (workingSet_) {
+                        frameTemp = workingSetHelper();
+                    } else if (clock_) {
                         //frameTemp = pager->selectVictimFrame();
-                        frameTemp=clockHelper();
+                        frameTemp = clockHelper();
                     } else {
                         frameTemp = pager->selectVictimFrame();
                     }
-                    printStatmentsAndCalculateCost(2,key,value,currentRunningProcess,frameTemp); //UNMAP
+                    printStatmentsAndCalculateCost(2, key, value, currentRunningProcess, frameTemp); //UNMAP
                     for (const auto &process:processes) {
                         if (process->processId == pager->processToMapAgain()) {
                             for (const auto &vmass:process->vmas) {
@@ -475,32 +462,32 @@ void simulation() {
                                 }
                             }
                             process->pte[pager->pageToMapAgain()].valid = 0;
-                            if (process->pte[pager->pageToMapAgain()].modified && fileMappedBit==0 ) {
+                            if (process->pte[pager->pageToMapAgain()].modified && fileMappedBit == 0) {
                                 process->pte[pager->pageToMapAgain()].modified = 0;
                                 process->pte[pager->pageToMapAgain()].pageDout = 1;
-                                printStatmentsAndCalculateCost(3,key,value,currentRunningProcess,frameTemp); //OUT
-                            } else if (process->pte[pager->pageToMapAgain()].modified && fileMappedBit==1) {
+                                printStatmentsAndCalculateCost(3, key, value, currentRunningProcess, frameTemp); //OUT
+                            } else if (process->pte[pager->pageToMapAgain()].modified && fileMappedBit == 1) {
                                 process->pte[pager->pageToMapAgain()].modified = 0;
-                                printStatmentsAndCalculateCost(4,key,value,currentRunningProcess,frameTemp); //FOUT
+                                printStatmentsAndCalculateCost(4, key, value, currentRunningProcess, frameTemp); //FOUT
                             }
                         }
                     }
                 }
-                if (fileMappedBitCurrent==1) {
-                    printStatmentsAndCalculateCost(5,key,value,currentRunningProcess,frameTemp); //FIN
-                } else if (!pte_->pageDout && fileMappedBitCurrent==0) {
-                    printStatmentsAndCalculateCost(6,key,value,currentRunningProcess,frameTemp); //ZERO
-                } else if (pte_->pageDout && fileMappedBitCurrent==0) {
-                    printStatmentsAndCalculateCost(7,key,value,currentRunningProcess,frameTemp); //INS
+                if (fileMappedBitCurrent == 1) {
+                    printStatmentsAndCalculateCost(5, key, value, currentRunningProcess, frameTemp); //FIN
+                } else if (!pte_->pageDout && fileMappedBitCurrent == 0) {
+                    printStatmentsAndCalculateCost(6, key, value, currentRunningProcess, frameTemp); //ZERO
+                } else if (pte_->pageDout && fileMappedBitCurrent == 0) {
+                    printStatmentsAndCalculateCost(7, key, value, currentRunningProcess, frameTemp); //INS
                 }
                 frameTemp->pID = currentRunningProcess->processId;
                 frameTemp->vpage = value;
                 currentRunningProcess->maps = currentRunningProcess->maps + 1;
                 currentRunningProcess->pte[value].noOfFrames = fmanager.framePosition(frameTemp);
-                printStatmentsAndCalculateCost(8,key,value,currentRunningProcess,frameTemp);
+                printStatmentsAndCalculateCost(8, key, value, currentRunningProcess, frameTemp);
                 currentRunningProcess->pte[value].valid = 1;
             }
-            if(execute) {
+            if (execute) {
                 currentRunningProcess->pte[value].refrenced = 1;
                 if (key == 'w') {
                     if (writeProtectedCurrent == 1) {
@@ -522,7 +509,7 @@ void inspectFrameTable() {
     for (const auto &frames: fmanager.frameTable) {
         if (frames == NULL) {
             cout << "* ";
-            outputFile <<  "* ";
+            outputFile << "* ";
         } else {
             cout << frames->pID << ":" << frames->vpage << " ";
             outputFile << frames->pID << ":" << frames->vpage << " ";
@@ -547,7 +534,7 @@ void inspectProcesses() {
                 process->unmaps, process->maps, process->ins, process->outs,
                 process->fins, process->fouts, process->zeros,
                 process->segvs, process->segprouts);
-        outputFile<<output;
+        outputFile << output;
     }
     outputFile.close();
 }
@@ -558,7 +545,7 @@ void printCost() {
     instCount = instructions.size();
     printf("TOTALCOST %ld %d %d %d %lu\n",
            instCount, cxSwitch, processExit, cost, sizeof(ptee));
-    sprintf(output,"TOTALCOST %d %d %d %d %lu\n",
+    sprintf(output, "TOTALCOST %d %d %d %d %lu\n",
             instCount, cxSwitch, processExit, cost, sizeof(ptee));
     outputFile << output;
     outputFile.close();
@@ -569,10 +556,10 @@ void inspectPageTable() {
     ofstream outputFile("output.txt", ofstream::out | ofstream::app);
     int i = 0;
     for (const auto &process:processes) {
-        i=0;
+        i = 0;
         printf("PT[%d]: ", process->processId);
-        sprintf(output,"PT[%d]: ", process->processId);
-        outputFile<<output;
+        sprintf(output, "PT[%d]: ", process->processId);
+        outputFile << output;
         for (const auto &table:process->pte) {
             if (table.valid) {
                 cout << i << ":";
@@ -599,7 +586,7 @@ void inspectPageTable() {
                 } else {
                     cout << "-";
                     outputFile << "-";
-          }
+                }
             } else {
                 if (table.pageDout) {
                     cout << "#";
@@ -613,42 +600,41 @@ void inspectPageTable() {
             cout << " ";
             outputFile << " ";
         }
-        cout<<endl;
-        outputFile<<endl;
+        cout << endl;
+        outputFile << endl;
     }
     outputFile.close();
 //    cout << endl;
 }
 
-void findAlgorithm(char * tempChar){
+void findAlgorithm(char *tempChar) {
     string algo = tempChar;
-    if(algo.at(0)=='a'){
-        aging_= true;
+    if (algo.at(0) == 'a') {
+        aging_ = true;
         pager = new Aging(&fmanager, maxFrames);
 
-    } else if( algo.at(0)=='w'){
-        workingSet_= true;
+    } else if (algo.at(0) == 'w') {
+        workingSet_ = true;
         pager = new WorkingSet(&fmanager, maxFrames);
-    } else if(algo.at(0)=='e'){
-        nru_= true;
+    } else if (algo.at(0) == 'e') {
+        nru_ = true;
         pager = new NRU(&fmanager, maxFrames);
-    } else if(algo.at(0)=='f'){
+    } else if (algo.at(0) == 'f') {
         pager = new Fifo(&fmanager);
-    } else if(algo.at(0)=='c'){
-        clock_= true;
+    } else if (algo.at(0) == 'c') {
+        clock_ = true;
         pager = new Clock(&fmanager, maxFrames);
-    } else if(algo.at(0)=='r'){
-        pager = new Random(&fmanager,randvals, maxFrames);
+    } else if (algo.at(0) == 'r') {
+        pager = new Random(&fmanager, randvals, maxFrames);
     }
 }
-void takeArguments(int argc, char **argv){
+
+void takeArguments(int argc, char **argv) {
     algoToUse;
     int options;
     char *OPFS;
-    while ((options = getopt(argc, argv, "o:a:f:")) != -1)
-    {
-        switch (options)
-        {
+    while ((options = getopt(argc, argv, "o:a:f:")) != -1) {
+        switch (options) {
             case 'o': {
                 OPFS = optarg;
                 break;
@@ -667,10 +653,10 @@ void takeArguments(int argc, char **argv){
 }
 
 int main(int argc, char **argv) {
-    takeArguments(argc,argv);
+    takeArguments(argc, argv);
     file = argv[optind];
     addSpecifications();
-    rfile=argv[optind + 1];
+    rfile = argv[optind + 1];
     readRFile();
     findAlgorithm(algoToUse);
     simulation();
