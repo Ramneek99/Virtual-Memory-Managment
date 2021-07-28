@@ -289,7 +289,7 @@ Frame * NruHelper(){
     int threshH = 49, lClass = 100;
     Frame *frame_= nullptr;
     Frame *current;
-    for(int i=0; i<maxFrames; i++) {
+    for(int i=0; i<fmanager.frameTable.size(); i++) {
         current = pager->selectVictimFrame();
         Process * temp = findCurrentRunningProcess(current->pID);
         int eClass = (2 * temp->pte[current->vpage].refrenced) + temp->pte[pager->pageToMapAgain()].modified;
@@ -321,7 +321,7 @@ Frame * NruHelper(){
 Frame * agingHelper(){
     Frame *frame_= nullptr;
     Frame *current;
-    for(int i=0; i<maxFrames; i++) {
+    for(int i=0; i<fmanager.frameTable.size(); i++) {
         current = pager->selectVictimFrame();
         current->ageCounter=current->ageCounter >> 1;
         for(const auto& process:processes){
@@ -345,7 +345,7 @@ Frame * agingHelper(){
 Frame * workingSetHelper(){
     Frame *frame_= nullptr;
     Frame *current;
-    for(int i=0; i<maxFrames; i++) {
+    for(int i=0; i<fmanager.frameTable.size(); i++) {
         current = pager->selectVictimFrame();
         Process * temp = findCurrentRunningProcess(current->pID);
         int age = instCount - current->tStamp;

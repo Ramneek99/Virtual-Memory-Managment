@@ -6,7 +6,7 @@ DIR1=$1
 DIR2=$2
 LOG=${3:-${DIR2}/LOG.txt}
 
-USEDIFF=0
+USEDIFF=1
 DARGS=         # nothing
 DARGS="-q --speed-large-files"         # the big files are killing us --> out of memory / fork refused etc
 
