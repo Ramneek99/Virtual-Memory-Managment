@@ -6,7 +6,7 @@ DIR1=$1
 DIR2=$2
 LOG=${3:-${DIR2}/LOG.txt}
 
-USEDIFF=1
+USEDIFF=0
 DARGS=         # nothing
 DARGS="-q --speed-large-files"         # the big files are killing us --> out of memory / fork refused etc
 
@@ -47,16 +47,17 @@ for I in ${INPUTS}; do
 #       echo "diff -b ${DARGS} ${DIR1}/${OUTF} ${DIR2}/${OUTF}"
 #       diff hangs .. cmp does the same trick as we only what see whether it diffes
         if [[ ${USEDIFF} -eq 1 ]]; then
-            DIFFCMD="diff -b ${DARGS} ${DIR1}/${OUTF} ${DIR2}/${OUTF}"
+            DIFFCMD="diff -b -q ${DARGS} ${DIR1}/${OUTF} ${DIR2}/${OUTF}"
+            DIFF=$(${DIFFCMD})
         else
-            DIFFCMD="cmp ${DIR1}/${OUTF} ${DIR2}/${OUTF}"
+            DIFFCMD="cmp ${DIR1}/${OUTF} ${DIR2}/${OUTF} 2>&1"
+            DIFF=$(cmp ${DIR1}/${OUTF} ${DIR2}/${OUTF} 2>&1)                                                             
         fi
-        DIFF=`${DIFFCMD}`
-        if [[ "${DIFF}" == "" ]]; then
+        if [[ $? == 0 ]]; then
             OUTLINE=`printf "%s  ." "${OUTLINE}"`
             let counters[$x]=`expr ${counters[$x]} + 1`
         else
-            #echo "diff -b ${DARGS} ${DIR1}/${OUTF} ${DIR2}/${OUTF} failed" >> ${LOG}
+            #echo "diff -b ${DARGS} ${DIR1}/${OUTF} ${DIR2}
             echo "${DIFFCMD} failed" >> ${LOG}
             SUMX=`egrep "^TOTAL" ${DIR1}/${OUTF}`
             SUMY=`egrep "^TOTAL" ${DIR2}/${OUTF}`
